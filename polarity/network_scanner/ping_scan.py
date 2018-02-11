@@ -7,7 +7,7 @@ from multiprocessing.dummy import Pool as ThreadPool
 
 class PingScan:
 
-    TIMEOUT = 1
+    _TIMEOUT = 0.5
 
     @staticmethod
     def start_scan(network):
@@ -23,10 +23,10 @@ class PingScan:
     @classmethod
     def ping_host(cls, host):
         logger = Logger()
-        ping = IP(dst=str(host))/ICMP()
+        ping_pkt = IP(dst=str(host))/ICMP()
 
-        pkt = sr1(ping, timeout=cls.TIMEOUT, verbose=False)
-        if pkt:
+        resp_pkt = sr1(ping_pkt, timeout=cls._TIMEOUT, verbose=False)
+        if resp_pkt:
             logger.log(Logger.INFO, "Host {} is up".format(str(host)))
             return host
 
