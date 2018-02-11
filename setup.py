@@ -8,5 +8,5 @@ setup(
     license='',
     author='William Moffitt',
     author_email='wmoffitt@cybrtalk.com',
-    description=''
+    description='', install_requires=['scapy']
 )
