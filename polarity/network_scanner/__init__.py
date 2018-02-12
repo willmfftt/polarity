@@ -1,2 +1,2 @@
 from polarity.network_scanner.ping_scan import PingScan
-from polarity.network_scanner.quick_scan import QuickScan
+from polarity.network_scanner.port_scan import PortScan
