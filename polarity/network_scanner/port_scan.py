@@ -1,6 +1,7 @@
 import multiprocessing
 
 from multiprocessing.dummy import Pool as ThreadPool
+from polarity.objects import Port
 from polarity.utils import Logger
 from scapy.all import *
 
@@ -33,7 +34,7 @@ class PortScan:
             if resp_pkt[TCP].flags == 18:
                 self.logger.log(Logger.INFO, "[{}] tcp port {} is open"
                                 .format(str(self._host), str(port)))
-                return port
+                return Port(port, Port.TCP)
 
         return None
 
@@ -53,6 +54,6 @@ class PortScan:
         if resp_pkt and resp_pkt.haslayer(UDP):
             self.logger.log(Logger.INFO, "[{}] udp port {} is open"
                             .format(str(self._host), str(port)))
-            return port
+            return Port(port, Port.UDP)
 
         return None
