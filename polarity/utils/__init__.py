@@ -1,1 +1,1 @@
-from polarity.utils.logger import Logger
+from polarity.utils.nmap_parser import NmapParser
