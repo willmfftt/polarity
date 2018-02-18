@@ -22,6 +22,7 @@ setup(
     },
     install_requires=[
         'argparse',
+        'pysmb',
         'python-nmap',
     ],
     python_requires='~=3.6',
