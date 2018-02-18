@@ -29,6 +29,8 @@ class UserEnumerator:
             for username in tmp_users:
                 users.add(User(username))
 
+        logging.info("Found %d users", len(users))
+
         return list(users)
 
     def __get_workgroups(self):
