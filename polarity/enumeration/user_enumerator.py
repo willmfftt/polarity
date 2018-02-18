@@ -3,6 +3,7 @@ import logging
 from nmb.NetBIOS import NetBIOS
 
 from polarity.enumeration.rpc_client import RpcClient
+from polarity.objects import User
 
 
 class UserEnumerator:
@@ -25,8 +26,8 @@ class UserEnumerator:
         logging.info("Workgroups found, enumerating users")
         for workgroup in workgroups:
             tmp_users = RpcClient.enumerate_users(self._host, workgroup)
-            for user in tmp_users:
-                users.add(user)
+            for username in tmp_users:
+                users.add(User(username))
 
         return list(users)
 

@@ -10,6 +10,7 @@ class Host:
 
         self._ports = []
         self._os_info = None
+        self._users = []
 
     @property
     def ip_address(self):
@@ -37,6 +38,17 @@ class Host:
     @os_info.setter
     def os_info(self, os_info):
         self._os_info = os_info
+
+    @property
+    def users(self):
+        return self._users
+
+    @users.setter
+    def users(self, users):
+        self._users = users
+
+    def add_user(self, user):
+        self._users.append(user)
 
     @staticmethod
     def build(nmap_host):

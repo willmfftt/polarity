@@ -4,6 +4,7 @@ import sys
 
 import argparse
 
+from polarity.enumeration import UserEnumerator
 from polarity.network_scanner import PortScan
 
 
@@ -30,6 +31,12 @@ def main():
     args = parser.parse_args()
 
     hosts = PortScan.start_scan(args.network)
+    if not args.user:
+        for host in hosts:
+            enumerator = UserEnumerator(host)
+            users = enumerator.enumerate()
+            if users:
+                host.users = users
 
     sys.exit(os.EX_OK)
 
