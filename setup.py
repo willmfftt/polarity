@@ -5,8 +5,8 @@ setup(
     version='0.1dev',
     packages=[
         'polarity',
+        'polarity.bruteforce',
         'polarity.enumeration',
-        'polarity.exploit_deployment',
         'polarity.network_scanner',
         'polarity.objects',
         'polarity.utils',
@@ -22,6 +22,7 @@ setup(
     },
     install_requires=[
         'argparse',
+        'paramiko',
         'pysmb',
         'python-nmap',
     ],

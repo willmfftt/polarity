@@ -50,6 +50,12 @@ class Host:
     def add_user(self, user):
         self._users.append(user)
 
+    def get_user_by_username(self, username):
+        for user in self._users:
+            if username == user.username:
+                return user
+        return None
+
     @staticmethod
     def build(nmap_host):
         parser = NmapParser(nmap_host)
