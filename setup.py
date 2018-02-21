@@ -7,6 +7,7 @@ setup(
         'polarity',
         'polarity.bruteforce',
         'polarity.enumeration',
+        'polarity.host_deployment',
         'polarity.network_scanner',
         'polarity.objects',
         'polarity.utils',
@@ -22,9 +23,11 @@ setup(
     },
     install_requires=[
         'argparse',
+        'jsonpickle',
         'paramiko',
         'pysmb',
         'python-nmap',
+        'requests',
     ],
     python_requires='~=3.6',
 )

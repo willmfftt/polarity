@@ -38,7 +38,7 @@ class FTPBruteforce(BaseBruteforce):
         return user_passwords
 
     def __check_password(self, password):
-        ftp = FTP(self._host.ip_address, timeout=0.5)
+        ftp = FTP(self._host.ip_address, timeout=1.0)
         try:
             ftp.login(self._current_user, password)
             ftp.close()

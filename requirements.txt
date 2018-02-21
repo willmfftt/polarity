@@ -1,4 +1,6 @@
 argparse==1.4.0
+jsonpickle==0.9.6
 paramiko==2.4.0
 pysmb==1.1.22
 python-nmap==0.6.1
+requests==2.18.4

